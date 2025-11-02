@@ -1,0 +1,39 @@
+.containerNav {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color:#23282b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px; 
+  box-sizing: border-box;
+  margin: 0;
+  height: 50px; 
+}
+
+.usericon {
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+}
+
+.home {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 18px;
+  margin-left: 20px;
+  padding: 0;
+}
+
+.home:hover {
+  cursor: pointer;
+  background: transparent;
+}
+
+.home:focus {
+  outline: none;
+}
+

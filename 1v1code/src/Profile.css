@@ -1,0 +1,59 @@
+
+.profile-container {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Profile card */
+.profile-card {
+    width: 350px;
+    background-color: #222;
+    border-radius: 10px;
+    padding: 20px;
+    color: white;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    width: 120px;
+    height: 120px;
+    margin-right: 20px;
+    border: 3px solid #444;
+}
+
+.profile-details {
+    flex-grow: 1;
+}
+
+.profile-name {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.profile-username {
+    font-size: 16px;
+    color: #aaa;
+}
+
+.join-date {
+    font-size: 14px;
+    color: #888;
+}
+
+.profile-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.friends, .views {
+    font-weight: normal;
+}
