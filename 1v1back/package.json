@@ -3,14 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-  "start": "node index.js",
-  "dev": "nodemon index.js"
-},
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@supabase/supabase-js": "^2.79.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0"
