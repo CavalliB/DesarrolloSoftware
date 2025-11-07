@@ -203,15 +203,7 @@
 <a name='L138'></a><a href='#L138'>138</a>
 <a name='L139'></a><a href='#L139'>139</a>
 <a name='L140'></a><a href='#L140'>140</a>
-<a name='L141'></a><a href='#L141'>141</a>
-<a name='L142'></a><a href='#L142'>142</a>
-<a name='L143'></a><a href='#L143'>143</a>
-<a name='L144'></a><a href='#L144'>144</a>
-<a name='L145'></a><a href='#L145'>145</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L141'></a><a href='#L141'>141</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -351,17 +343,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// 🐛 ARCHIVO CON ERRORES INTENCIONADOS PARA PRACTICAR
-// Este archivo contiene múltiples errores de lógica que debes corregir
-// hasta que todos los tests pasen
-&nbsp;
-// Función para calcular el factorial de un número
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Función para calcular el factorial de un número
 export const factorial = (n) =&gt; {
   if (n &lt; 0) return undefined;
-  if (n === 0) return 0; // ❌ ERROR: el factorial de 0 debería ser 1
+  if (n === 0) return 0;
   
   let resultado = 1;
-  for (let i = 2; i &lt; n; i++) { // ❌ ERROR: debería ser i &lt;= n
+  for (let i = 2; i &lt; n; i++) {
     resultado *= i;
   }
   return resultado;
@@ -369,11 +357,11 @@ export const factorial = (n) =&gt; {
 &nbsp;
 // Función para verificar si un número es primo
 export const esPrimo = (num) =&gt; {
-  if (num &lt;= 1) return true; // ❌ ERROR: los números &lt;= 1 no son primos
-  <span class="missing-if-branch" title="else path not taken" >E</span>if (num === 2) return false; // ❌ ERROR: el 2 sí es primo
+  if (num &lt;= 1) return true;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (num === 2) return false;
 <span class="cstat-no" title="statement not covered" >  if (num % 2 === 0) <span class="cstat-no" title="statement not covered" >return false;</span></span>
   
-<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >3;</span> i &lt; Math.sqrt(num); i += 2) { // ❌ ERROR: debería ser i &lt;= Math.sqrt(num)</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >3;</span> i &lt; Math.sqrt(num); i += 2) {</span>
 <span class="cstat-no" title="statement not covered" >    if (num % i === 0) <span class="cstat-no" title="statement not covered" >return false;</span></span>
   }
 <span class="cstat-no" title="statement not covered" >  return true;</span>
@@ -382,11 +370,11 @@ export const esPrimo = (num) =&gt; {
 // Función para obtener números de Fibonacci
 export const fibonacci = (n) =&gt; {
   if (n &lt;= 0) return [];
-  <span class="missing-if-branch" title="else path not taken" >E</span>if (n === 1) return [1]; // ❌ ERROR: debería ser [0]
-<span class="cstat-no" title="statement not covered" >  if (n === 2) <span class="cstat-no" title="statement not covered" >return [0, 2]; </span></span>// ❌ ERROR: debería ser [0, 1]
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (n === 1) return [1];
+<span class="cstat-no" title="statement not covered" >  if (n === 2) <span class="cstat-no" title="statement not covered" >return [0, 2];</span></span>
   
   const resultado = <span class="cstat-no" title="statement not covered" >[0, 1];</span>
-<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >2;</span> i &lt;= n; i++) { // ❌ ERROR: debería ser i &lt; n</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >2;</span> i &lt;= n; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    resultado.push(resultado[i - 1] + resultado[i - 2]);</span>
   }
 <span class="cstat-no" title="statement not covered" >  return resultado;</span>
@@ -397,8 +385,8 @@ export const encontrarMaximo = (numeros) =&gt; {
   if (!numeros || numeros.length === 0) return null;
   
   let maximo = numeros[0];
-  for (let i = 0; i &lt; numeros.length; i++) { // ❌ ERROR: debería empezar en i = 1
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (numeros[i] &lt; maximo) { // ❌ ERROR: debería ser &gt;
+  for (let i = 0; i &lt; numeros.length; i++) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (numeros[i] &lt; maximo) {
 <span class="cstat-no" title="statement not covered" >      maximo = numeros[i];</span>
     }
   }
@@ -410,10 +398,10 @@ export const promedio = (numeros) =&gt; {
   if (!numeros || numeros.length === 0) return 0;
   
   let suma = 0;
-  for (let i = 1; i &lt; numeros.length; i++) { // ❌ ERROR: debería empezar en i = 0
+  for (let i = 1; i &lt; numeros.length; i++) {
     suma += numeros[i];
   }
-  return suma / numeros.length; // ❌ ERROR: va a estar mal porque no suma el primer elemento
+  return suma / numeros.length;
 };
 &nbsp;
 // Función para verificar si una cadena es palíndromo
@@ -423,7 +411,7 @@ export const esPalindromo = (texto) =&gt; {
   const limpio = texto.toLowerCase().replace(/[^a-z0-9]/g, '');
   const invertido = limpio.split('').reverse().join('');
   
-  return limpio !== invertido; // ❌ ERROR: debería ser ===
+  return limpio !== invertido;
 };
 &nbsp;
 // Función para contar vocales en una cadena
@@ -435,7 +423,7 @@ export const contarVocales = (texto) =&gt; {
   
   for (let caracter of texto.toLowerCase()) {
     if (vocales.includes(caracter)) {
-      contador--; // ❌ ERROR: debería ser contador++
+      contador--;
     }
   }
   return contador;
@@ -449,8 +437,8 @@ export const ordenamientoBurbuja = (arreglo) =&gt; {
   const n = resultado.length;
   
   for (let i = 0; i &lt; n - 1; i++) {
-    for (let j = 0; j &lt; n - i; j++) { // ❌ ERROR: debería ser n - i - 1
-      if (resultado[j] &lt; resultado[j + 1]) { // ❌ ERROR: debería ser &gt;
+    for (let j = 0; j &lt; n - i; j++) {
+      if (resultado[j] &lt; resultado[j + 1]) {
         // Intercambiar elementos
         const temp = resultado[j];
         resultado[j] = resultado[j + 1];
@@ -465,7 +453,7 @@ export const ordenamientoBurbuja = (arreglo) =&gt; {
 export const busquedaBinaria = (arreglo, objetivo) =&gt; {
   if (!arreglo || arreglo.length === 0) return -1;
   
-  let izquierda = 1; // ❌ ERROR: debería ser 0
+  let izquierda = 1;
   let derecha = arreglo.length - 1;
   
   while (izquierda &lt;= derecha) {
@@ -473,7 +461,7 @@ export const busquedaBinaria = (arreglo, objetivo) =&gt; {
     
     if (arreglo[medio] === objetivo) {
       return medio;
-    } else if (arreglo[medio] &gt; objetivo) { // ❌ ERROR: debería ser &lt;
+    } else if (arreglo[medio] &gt; objetivo) {
       derecha = medio - 1;
     } else {
       izquierda = medio + 1;
@@ -489,12 +477,12 @@ export const mcd = (a, b) =&gt; {
   b = Math.abs(b);
   
   while (b !== 0) {
-    let temp = a; // ❌ ERROR: lógica incorrecta
+    let temp = a;
     a = b;
     b = temp % b;
   }
   
-  return b; // ❌ ERROR: debería retornar a
+  return b;
 };</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -502,7 +490,7 @@ export const mcd = (a, b) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-10-17T23:55:41.822Z
+                at 2025-10-18T00:37:43.695Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

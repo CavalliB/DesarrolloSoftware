@@ -39,6 +39,5 @@
     "jsdom": "^27.0.0",
     "vite": "^6.0.1"
   },
-  "overrides": {
-  }
+  "overrides": {}
 }
