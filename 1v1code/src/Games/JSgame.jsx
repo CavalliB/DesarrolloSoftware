@@ -1,9 +1,32 @@
 import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './JSgame.css';
 import Timer from './Timer';
+import socket from "../socket";
 
 const JSgame = () => {
+  const [_isWinner, _setIsWinner] = useState(false);
+  const [_status, setStatus] = useState("¡Comienza el juego!");
+  const [modal, setModal] = useState({ open: false, message: "" });
+  const location = useLocation();
+
+  // Escuchar cuando el oponente termina
+  useEffect(() => {
+    // Cuando el servidor decide el resultado final
+    socket.on("gameResult", ({ winnerId, winnerTime }) => {
+      const myId = socket.id;
+      if (winnerId === myId) {
+        setModal({ open: true, message: "🎉 ¡Ganaste! ¡Fuiste el más rápido! 🎉" });
+      } else {
+        setModal({ open: true, message: "😢 Perdiste. El oponente fue más rápido." });
+      }
+      setResultVisible(true);
+    });
+    return () => {
+      socket.off("gameResult");
+    };
+  }, []);
+
   const [js, setJs] = useState(`barco gray (12 , 14) vertical 2`);
   const [hintVisible, setHintVisible] = useState(false);
   const [resultVisible, setResultVisible] = useState(false);
@@ -56,7 +79,19 @@ const JSgame = () => {
   // FUNCIONES
 
   const handleHint = () => setHintVisible(!hintVisible);
-  const handleFinish = () => setResultVisible(!resultVisible);
+  const handleFinish = () => {
+    if (!isCorrect) {
+      setStatus("❌ El ejercicio no es correcto. Corrige antes de finalizar.");
+      setResultVisible(true);
+      return;
+    }
+    // Emitir fin manual sin tiempo
+    const params = new URLSearchParams(location.search);
+    const room = params.get("room");
+    if (room) socket.emit("playerFinished", { roomId: room, time: null });
+    setStatus("Has terminado");
+    setResultVisible(true);
+  };
 
   const isCorrect = preview.every((fila, i) =>
     fila.every((color, j) => color === expected[i][j])
@@ -65,6 +100,20 @@ const JSgame = () => {
   const blockSize = 18;
 
   // BOARD
+
+  // Al montar el componente, nos unimos a la sala indicada en la query ?room=
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const room = params.get("room");
+    if (room) {
+      socket.emit("join_room", room);
+    }
+
+    return () => {
+      // Intentamos salir de la sala al desmontar (si el servidor maneja 'leaveRoom')
+      if (room) socket.emit("leave_room", room);
+    };
+  }, [location.search]);
 
   function Board({ matrix, blockSize }) {
     return (
@@ -130,11 +179,56 @@ const JSgame = () => {
 
   const handleFinishTimer = (totalSeconds) => {
     console.log(`Tiempo total: ${totalSeconds} segundos`);
-    handleFinish(); // Automáticamente muestra el resultado cuando se finaliza el tiempo
+    if (!isCorrect) {
+      setStatus("❌ El ejercicio no es correcto. Corrige antes de finalizar.");
+      setResultVisible(true);
+      return;
+    }
+    // Emitimos al servidor que este jugador terminó, para notificar al oponente
+    const params = new URLSearchParams(location.search);
+    const room = params.get("room");
+    if (room) {
+      socket.emit("playerFinished", { roomId: room, time: totalSeconds });
+    }
+    // Mostrar resultado localmente también
+    setResultVisible(true);
   };
+
+  
 
   return (
     <>
+      {/* Modal de resultado */}
+      {modal.open && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          background: "rgba(0,0,0,0.5)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 9999
+        }}>
+          <div style={{
+            background: "white",
+            padding: 32,
+            borderRadius: 12,
+            boxShadow: "0 2px 16px rgba(0,0,0,0.3)",
+            minWidth: 300,
+            textAlign: "center",
+            fontSize: 24
+          }}>
+            {modal.message}
+            <br />
+            <button style={{ marginTop: 24, fontSize: 18 }} onClick={() => setModal({ open: false, message: "" })}>
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
       <div style={{ 
         width: "100%",
         display: "flex",
@@ -144,7 +238,6 @@ const JSgame = () => {
       }}>
         <Timer onFinish={handleFinishTimer} />
       </div>
-      
       <div style={{ display: "flex", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: "20px" }}>
         <div style={{ minWidth: 320, maxWidth: 320 }}>
           <h3>JS Input</h3>
@@ -172,13 +265,11 @@ const JSgame = () => {
             </p>
           )}
         </div>
-
         <div style={{ display: "flex", gap: 10 }}>
           <div>
             <h3>Preview</h3>
             <Board matrix={preview} blockSize={blockSize} />
           </div>
-
           <div>
             <h3>Expected</h3>
             <Board matrix={expected} blockSize={blockSize} />

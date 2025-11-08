@@ -3,6 +3,7 @@ import CodeEditor from './Games/CodeEditor';
 import Profile from './Profile';
 import JSgame from './Games/JSgame';
 import Nav from "./Nav.jsx";
+import Matchmaker from './Games/Matchmaker';
 import './App.css';
 
 function Home() {
@@ -22,7 +23,7 @@ function SelectMode() {
   return (
     <section>
       <h2 className='as'>Selecciona un modo de juego</h2>
-      <Link to="/js"><button className="botoncenter">JS game</button></Link>
+<Link to="/matchmaker"><button className="botoncenter">JS game</button></Link>
       <Link to="/code"><button className="botoncenter">CSS game</button></Link>
       <Link to="/"><button className="botoncenter">Volver</button></Link>
     </section>
@@ -41,6 +42,7 @@ function App() {
             <Route path="/code" element={<CodeEditor />} />
             <Route path="/js" element={<JSgame />} />
             <Route path="/user" element={<Profile />} />
+            <Route path="/matchmaker" element={<Matchmaker />} />
           </Routes>
         </main>
       </div>
