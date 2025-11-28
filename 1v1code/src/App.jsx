@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { AuthProvider } from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
-
 import CodeEditor from "./Games/CodeEditor";
 import Profile from "./Profile";
 import JSgame from "./Games/JSgame";

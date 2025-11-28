@@ -86,7 +86,7 @@ export const getPerfil = async (req, res) => {
 
     const { data, error } = await supabase
       .from("Usuario")
-      .select("id, Nombre, Email")
+      .select("id, Nombre, Email, Elo, created_at, PartidaTotal, PartidaGanada")
       .eq("id", id)
       .single();
 

@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const verificarSesion = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/login`, {
+        const res = await fetch(`${API_URL}/api/perfil`, {
           credentials: "include", // envia cookies al backend
         });
 

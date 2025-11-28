@@ -14,8 +14,11 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: FRONTEND_URL,
-    methods: ["GET", "POST"],
+    origin: (origin, callback) => {
+      // allow requests with no origin (like curl, mobile apps) and reflect the request origin for browsers
+      callback(null, true);
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   },
 });
@@ -24,7 +27,11 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: FRONTEND_URL,
+    origin: (origin, callback) => {
+      // In development reflect the incoming origin so the Access-Control-Allow-Origin header
+      // matches the requesting origin (works well with GitHub Codespaces app.github.dev URLs).
+      callback(null, true);
+    },
     credentials: true,
   })
 );
