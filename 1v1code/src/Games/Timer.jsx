@@ -44,19 +44,6 @@ const Timer = ({ onFinish }) => {
       alignItems: 'center'
     }}>
       <span style={{ fontSize: '1.2em' }}>{formatTime(seconds)}</span>
-      <button 
-        onClick={handleFinish}
-        style={{
-          padding: '4px 8px',
-          backgroundColor: '#666',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer'
-        }}
-      >
-        Finalizar
-      </button>
     </div>
   );
 };

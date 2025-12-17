@@ -3,6 +3,7 @@ import { SOCKET_URL } from "./config.js";
 
 const socket = io(SOCKET_URL, {
   transports: ["websocket", "polling"],
+  withCredentials: true,
 });
 
 export default socket;

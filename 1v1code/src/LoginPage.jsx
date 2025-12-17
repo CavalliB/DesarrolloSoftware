@@ -12,7 +12,10 @@ export default function LoginPage() {
       onClose={() => {}}
       onLoginSuccess={(user) => {
         setUsuario(user);
-        navigate("/"); 
+        try {
+          localStorage.setItem("hasValidLogin", "1");
+        } catch (e) {}
+        navigate("/");
       }}
     />
   );

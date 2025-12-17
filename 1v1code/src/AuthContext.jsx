@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     const verificarSesion = async () => {
       try {
         const res = await fetch(`${API_URL}/api/perfil`, {
-          credentials: "include", // envia cookies al backend
+          credentials: "include",
         });
 
         if (res.ok) {
@@ -19,10 +19,23 @@ export const AuthProvider = ({ children }) => {
           setUsuario(data.usuario);
         } else {
           setUsuario(null);
+          try {
+            localStorage.removeItem("hasValidLogin");
+          } catch (e) {}
         }
       } catch (error) {
         console.error("Error verificando sesión:", error);
-        setUsuario(null);
+
+        try {
+          const has = localStorage.getItem("hasValidLogin");
+          if (has) {
+            setUsuario({ Nombre: "Offline User" });
+          } else {
+            setUsuario(null);
+          }
+        } catch (e) {
+          setUsuario(null);
+        }
       } finally {
         setCargando(false);
       }

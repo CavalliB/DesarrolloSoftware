@@ -1,49 +1,201 @@
-import React from 'react';
+import React, { useRef, useState } from "react";
 import { useAuth } from "./AuthContext";
-import './Profile.css';
+import { useNavigate } from "react-router-dom";
+import { API_URL } from "./config";
+import "./Profile.css";
 
 const Profile = () => {
-    const { usuario } = useAuth();
+  const { usuario, setUsuario } = useAuth();
+  const navigate = useNavigate();
 
-    if (!usuario) return <div>Cargando datos del usuario...</div>;
+  const [isEditing, setIsEditing] = useState(false);
+  const [newName, setNewName] = useState("");
+  const [newFile, setNewFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
 
-    const formatearFecha = (fecha) => {
-        if (!fecha) return "Fecha desconocida";
-        return new Date(fecha).toLocaleDateString('es-ES', {
-            year: 'numeric', month: 'short', day: 'numeric'
-        });
-    };
+  const fileInputRef = useRef(null);
 
-    return (
-        <>
-            <div className="profile-container">
-                <div className="profile-card">
-                    <div className="profile-header">
-                        <img
-                            className="profile-picture"
-                            src={usuario.avatarUrl || "https://imgs.search.brave.com/uRLjIz0r9LwrGq9jagcfeSqoD188L_55nkk0IhaFSrw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvOTk5/NDQ1MzIyL3Bob3Rv/L25hbmR1LXJoZWEt/YW1lcmljYW5hLWdy/ZWF0ZXItcmhlYS5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/NGc2MDRpUFBPbDBH/LXlzalBKalVnTmdx/bnFvMGl4SFFGWGhK/dnRhMWRFWT0"
-                            }
-                            alt={`Perfil de ${usuario.nombre}`}
-                        />
-                        <div className="profile-details">
-                            <h2 className="profile-name">{usuario.Nombre || "Usuario"}</h2>
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/logout`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      });
 
-                            {/* 5. Formateamos la fecha de creación de la cuenta */}
-                            <p className="join-date">
-                                Se unió el {formatearFecha(usuario.created_at)}
-                            </p>
-                        </div>
-                    </div>
+      if (!response.ok) {
+        console.error("Error al cerrar sesión en el servidor");
+        setUsuario(null);
+      }
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
 
-                    <div className="profile-footer">
-                        {/* 6. Datos dinámicos (asegúrate de que tu backend los envíe) */}
-                        <p className="friends">{usuario.PartidaTotal || 0} partidas jugadas</p>
-                        <p className="views">{usuario.PartidaGanada || 0} victorias</p>
-                    </div>
+    navigate("/login");
+  };
+
+  const handleEditClick = () => {
+    setNewName(usuario.Nombre);
+    setNewFile(null);
+    setPreviewUrl(usuario.AvatarUrl);
+    setIsEditing(true);
+  };
+
+  // Manejar selección de archivo
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setNewFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
+  // Guardar cambios
+  const handleSave = async () => {
+    setIsSaving(true);
+    const formData = new FormData();
+
+    // Solo agregar cambios
+    formData.append("Nombre", newName);
+    if (newFile) {
+      formData.append("avatar", newFile);
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/api/update`, {
+        method: "PUT",
+        credentials: "include",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUsuario(data.usuario);
+        setIsEditing(false);
+      } else {
+        alert("Error al actualizar perfil");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  if (!usuario) return <div>Cargando datos del usuario...</div>;
+
+  const formatearFecha = (fecha) => {
+    if (!fecha) return "Fecha desconocida";
+    return new Date(fecha).toLocaleDateString("es-ES", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  return (
+    <div className="profile-container">
+      <div className="profile-card">
+        {!isEditing && (
+          <button
+            className="edit-btn"
+            onClick={handleEditClick}
+            title="Editar perfil"
+          >
+            Editar perfil
+          </button>
+        )}
+
+        <div className="profile-header">
+          <div className={`avatar-section ${isEditing ? "editing-mode" : ""}`}>
+            <img
+              className="profile-picture"
+              src={
+                previewUrl ||
+                usuario.AvatarUrl ||
+                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+              }
+              alt="Perfil"
+            />
+
+            {isEditing && (
+              <>
+                <div
+                  className="avatar-overlay"
+                  onClick={() => fileInputRef.current.click()}
+                >
+                  <span>📷 Cambiar</span>
                 </div>
-            </div>
-        </>
-    );
+              </>
+            )}
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+              accept="image/*"
+            />
+          </div>
+
+          <div className="profile-details">
+            {isEditing ? (
+              <div className="edit-form">
+                <label>Nombre de usuario</label>
+                <input
+                  type="text"
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  className="name-input"
+                />
+              </div>
+            ) : (
+              <>
+                <h2 className="profile-name">{usuario.Nombre}</h2>
+                <p className="join-date">
+                  Se unió el {formatearFecha(usuario.created_at)}
+                </p>
+              </>
+            )}
+          </div>
+        </div>
+
+        {isEditing && (
+          <div className="edit-actions">
+            <button
+              className="cancel-btn"
+              onClick={() => setIsEditing(false)}
+              disabled={isSaving}
+            >
+              Cancelar
+            </button>
+            <button
+              className="save-btn"
+              onClick={handleSave}
+              disabled={isSaving}
+            >
+              {isSaving ? "Guardando..." : "Guardar Cambios"}
+            </button>
+          </div>
+        )}
+
+        {!isEditing && (
+          <div className="profile-footer">
+            <p className="friends">
+              {usuario.PartidaTotal || 0} partidas jugadas
+            </p>
+            <p className="views">{usuario.PartidaGanada || 0} victorias</p>
+          </div>
+        )}
+
+        {!isEditing && (
+          <button className="logout-btn" onClick={handleLogout}>
+            Cerrar Sesión
+          </button>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default Profile;

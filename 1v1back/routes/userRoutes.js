@@ -1,8 +1,15 @@
 import express from "express";
-import { registerUser, loginUser, getPerfil, logoutUser } from "../controllers/userController.js";
+import multer from "multer";
+import { registerUser, loginUser, getPerfil, logoutUser, updateUser } from "../controllers/userController.js";
 import { authenticateToken } from "../middleware/auth.js";
 
 const router = express.Router();
+
+// Configuración de Multer (Almacenamiento en memoria)
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 } // Límite de 5MB
+});
 
 // Ruta para registrar usuarios
 router.post("/register", registerUser);
@@ -14,6 +21,8 @@ router.post("/login", loginUser);
 router.get("/perfil", authenticateToken, getPerfil);
 
 // Cerrar sesión
-router.post("/logout", logoutUser); 
+router.post("/logout", logoutUser);
 
+// editar perfil (token y usa Multer)
+router.put("/update", authenticateToken, upload.single("avatar"), updateUser);
 export default router;
