@@ -19,9 +19,14 @@ const CodeEditor = () => {
     outputHtml = `<pre style="color:red">${err.message}</pre>`;
   }
   // Respuesta esperada
-  const expectedHTML = ``;
-  const expectedCSS = ``;
-  const expectedJS = `return ''`;
+  const expectedHTML = `<h1>Hola mundo</h1>`;
+    const expectedCSS = `h1 { color: teal; }
+div {background-color:blue;padding:5px;margin:5px}
+.box{display:flex;;background-color:purple; padding:20%}
+.in{padding:20px;}
+.ini{margin-left:40px}`;
+    const expectedJS = `return '<div class="box"><div class="in"></div><div class="in"></div><div class="ini"></div></div>'`;
+
 
   let expectedOutput = "";
   try {

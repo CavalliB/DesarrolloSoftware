@@ -1,24 +1,27 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 
-const Timer = ({ onFinish }) => {
+const Timer = forwardRef(({ onFinish }, ref) => {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(true);
 
   useEffect(() => {
     let interval = null;
-    
+
     if (isActive) {
       interval = setInterval(() => {
-        setSeconds(seconds => seconds + 1);
+        setSeconds(s => s + 1);
       }, 1000);
     }
 
     return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
+      if (interval) clearInterval(interval);
     };
   }, [isActive]);
+
+  useImperativeHandle(ref, () => ({
+    getSeconds: () => seconds,
+    stop: () => setIsActive(false),
+  }), [seconds]);
 
   const formatTime = (totalSeconds) => {
     const minutes = Math.floor(totalSeconds / 60);
@@ -46,6 +49,6 @@ const Timer = ({ onFinish }) => {
       <span style={{ fontSize: '1.2em' }}>{formatTime(seconds)}</span>
     </div>
   );
-};
+});
 
 export default Timer;

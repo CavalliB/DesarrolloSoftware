@@ -72,6 +72,42 @@ async function updateUsuarioStats(UsuarioId, isWinner) {
     }
 }
 
+async function guardarPartida(jugador1Id, jugador2Id, ganadorId, tiempo) {
+    try {
+        const resultado = ganadorId === jugador1Id ? "Jugador1" : "Jugador2";
+        
+        console.log(`📝 Intentando guardar partida:`, {
+            Jugador1: jugador1Id,
+            Jugador2: jugador2Id,
+            Resultado: resultado,
+            Estado: "completada",
+            Tiempo: tiempo
+        });
+        
+        const { data, error } = await supabase
+            .from("Partida")
+            .insert([
+                {
+                    Jugador1: jugador1Id,
+                    Jugador2: jugador2Id,
+                    Resultado: resultado,
+                    Estado: "completada",
+                    Tiempo: tiempo
+                }
+            ])
+            .select();
+
+        if (error) {
+            console.error(`❌ Error al guardar partida:`, error.message);
+            throw error;
+        }
+
+        console.log(`💾 Partida guardada exitosamente:`, data[0]);
+    } catch (err) {
+        console.error("Error en guardarPartida:", err);
+    }
+}
+
 let waitingPlayer = null;
 const roomResults = {};
 const roomData = {};
@@ -133,6 +169,19 @@ export default function socketManager(io) {
                 winnerId: socket.id,
                 winnerTime: time,
             });
+
+            // Obtener datos de ambos jugadores
+            const players = roomPlayers[roomId];
+            if (players && players.length >= 2) {
+                const jugador1Id = players[0].usuarioId;
+                const jugador2Id = players[1].usuarioId;
+                const ganadorId = currentUsuario.id;
+
+                console.log(`📝 Guardando partida - J1: ${jugador1Id}, J2: ${jugador2Id}, Ganador: ${ganadorId}, Tiempo: ${time}`);
+
+                // Guardar la partida en la BD
+                await guardarPartida(jugador1Id, jugador2Id, ganadorId, time);
+            }
 
             if (currentUsuario && currentUsuario.id) {
                 await updateUsuarioStats(currentUsuario.id, true);

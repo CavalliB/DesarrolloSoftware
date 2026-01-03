@@ -1,7 +1,8 @@
 .profile-container {
     font-family: 'Arial', sans-serif;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     padding: 20px;
 }
 
@@ -95,7 +96,7 @@
     background-color: #0078ff;
     color: white;
     border: none;
-    padding: 8px 12px;
+    padding: 8px 10px;
     border-radius: 8px;
     cursor: pointer;
     font-weight: 700;
@@ -105,6 +106,13 @@
 .edit-btn:hover {
     opacity: 0.95;
     transform: translateY(-1px);
+}
+
+.edit-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    color: white;
 }
 
 .upload-btn {
@@ -230,4 +238,79 @@
 
 .cancel-btn:hover {
     background: #666;
+}
+
+/* Historial de Partidas */
+.historial-section {
+    width: 100%;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    padding: 30px 20px;
+    color: white;
+    margin-top: 30px;
+}
+
+.historial-section h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 0 20px 0;
+    text-align: center;
+    color: #00bfff;
+}
+
+.loading {
+    text-align: center;
+    color: #888;
+    padding: 20px;
+}
+
+.no-games {
+    text-align: center;
+    color: #999;
+    padding: 20px;
+    font-style: italic;
+}
+
+.historial-container {
+    overflow-x: auto;
+}
+
+.historial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.historial-table thead {
+    background-color: #333;
+    border-bottom: 2px solid #00bfff;
+}
+
+.historial-table th {
+    padding: 12px;
+    text-align: left;
+    color: #00bfff;
+    font-weight: bold;
+}
+
+.historial-table td {
+    padding: 12px;
+    border-bottom: 1px solid #333;
+    color: #ddd;
+}
+
+.partida-row:hover {
+    background-color: #2a2a2a;
+}
+
+.resultado {
+    font-weight: bold;
+}
+
+.resultado.victoria {
+    color: #4ade80;
+}
+
+.resultado.derrota {
+    color: #f87171;
 }

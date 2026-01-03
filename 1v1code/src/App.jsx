@@ -35,6 +35,9 @@ function SelectMode() {
       <Link to="/code">
         <button className="botoncenter">CSS game</button>
       </Link>
+      <Link to="/mode">
+        <button className="botoncenter">1v1 viborita PROXIMAMENTE</button>
+      </Link>
       <Link to="/">
         <button className="botoncenter">Volver</button>
       </Link>

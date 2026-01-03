@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./JSgame.css";
 import Timer from "./Timer";
@@ -15,6 +15,7 @@ const JSgame = () => {
   const [expected, setExpected] = useState([]); // Ahora empieza vacío
   const [hintColors, setHintColors] = useState([]); // Colores pista
   const [isLoading, setIsLoading] = useState(true);
+  const timerRef = useRef(null);
 
   const [js, setJs] = useState("barco red(2, 3) horizontal 3"); // Input del usuario
   const [hintVisible, setHintVisible] = useState(false);
@@ -136,11 +137,14 @@ const JSgame = () => {
       const params = new URLSearchParams(location.search);
       const room = params.get("room");
       // null en tiempo si es manual
-      if (room)
+      if (room) {
+        const timeToSend = manualWin ? 0.1 : (timerRef.current?.getSeconds() || 0);
         socket.emit("playerFinished", {
           roomId: room,
-          time: manualWin ? 0.1 : null,
+          time: timeToSend,
+          isWinner: true,
         });
+      }
       setResultVisible(true);
     } else {
       setResultVisible(true); // Muestra mensaje de error
@@ -162,7 +166,7 @@ const JSgame = () => {
     const params = new URLSearchParams(location.search);
     const room = params.get("room");
     if (room) {
-      socket.emit("playerFinished", { roomId: room, time: totalSeconds });
+      socket.emit("playerFinished", { roomId: room, time: totalSeconds, isWinner: true });
     }
     setResultVisible(true);
   };
@@ -291,7 +295,7 @@ const JSgame = () => {
           marginTop: "60px",
         }}
       >
-        <Timer onFinish={handleFinishTimer} />
+        <Timer ref={timerRef} onFinish={handleFinishTimer} />
       </div>
 
       <div
