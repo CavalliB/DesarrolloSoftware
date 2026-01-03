@@ -1,0 +1,91 @@
+.rankings-list {
+    margin-top: 16px;
+}
+
+.rankings-list ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: flex-start;
+}
+
+.boxApp.rankings {
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.rankings-list {
+    width: 100%;
+}
+
+.ranking-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffffffcc;
+    padding: 10px 12px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.rank-pos {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #ffb86b, #ff7b6b);
+    border-radius: 8px;
+    flex: 0 0 36px;
+}
+
+.avatarSmall {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #eee;
+}
+
+.rank-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.rank-info strong {
+    font-size: 1rem;
+}
+
+.sub {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.rank-elo {
+    margin-left: auto;
+    color: #333;
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+    .ranking-item {
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .avatarSmall {
+        width: 40px;
+        height: 40px;
+    }
+
+    .rank-pos {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+}

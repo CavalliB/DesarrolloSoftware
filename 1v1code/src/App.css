@@ -1,30 +1,84 @@
-.app-container {
+body {
+  background: transparent;
+  margin: 0;
+  padding: 0;
+}
 
+html {
+  background: transparent;
+}
+
+body.game-mode {
+  background: #242424;
+}
+
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+main {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+}
+
+.app-container {
+  position: relative;
+  z-index: 2;
   max-width: 1280px;
   margin: 0;
-  margin-top:20px;
+  margin-top: 70px;
   text-align: center;
+  background: transparent;
+}
+
+.app-container.game-mode {
+  background: #242424;
+  max-width: 100%;
+  margin-top: 50px;
 }
 
 .botoncenter {
   align-items: center;
   justify-content: center;
   margin: 1rem;
+  background-color: #242424;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.botoncenter:hover {
+  background-color: #5564eb;
 }
 
 .boxApp {
   display: flex;
-  flex-direction: column;   
-  justify-content: space-between; 
-  align-items: center;     
-  height: 80vh;            
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 80vh;
   padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
 }
 
 .buttonRow {
-  display: flex;          
-  gap: 20px;               
+  display: flex;
+  gap: 20px;
 }
-.as{
-  color:#5564eb
+
+.as {
+  color: #5564eb
 }

@@ -1,16 +1,17 @@
 .containerNav {
-  position: fixed; 
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color:#23282b;
+  background-color: #23282b;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px; 
+  padding: 0 20px;
   box-sizing: border-box;
   margin: 0;
-  height: 50px; 
+  height: 50px;
+  z-index: 1000;
 }
 
 .usericon {
@@ -36,4 +37,3 @@
 .home:focus {
   outline: none;
 }
-

@@ -182,3 +182,20 @@ export const updateUser = async (req, res) => {
     res.status(500).json({ error: "Error al actualizar perfil" });
   }
 };
+
+// Obtener rankings de jugadores por partidas ganadas
+export const getRankings = async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("Usuario")
+      .select("id, Nombre, Elo, PartidaTotal, PartidaGanada, AvatarUrl")
+      .order("PartidaGanada", { ascending: false })
+      .limit(20);
+
+    if (error) throw error;
+
+    res.status(200).json({ rankings: data || [] });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
