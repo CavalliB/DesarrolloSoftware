@@ -18,7 +18,7 @@ Este documento ofrece una descripción general de la aplicación frontend para 1
 
 Para configurar y ejecutar la aplicación frontend localmente, siga estos pasos:
 
-1. **Clonar el repositorio:**
+1. **Acceder a la carpeta:**
 ```bash
 cd 1v1code
 ```

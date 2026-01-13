@@ -17,7 +17,7 @@ El backend se encarga de gestionar la autenticación de usuarios, la lógica del
 
 Para configurar y ejecutar la aplicación backend localmente, siga estos pasos:
 
-1. **Clonar el repositorio:**
+1. **Acceder a la carpeta:**
 ```bash
 cd 1v1back
 ```
