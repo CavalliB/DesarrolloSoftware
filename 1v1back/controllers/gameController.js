@@ -16,11 +16,11 @@ export const getJuegos = async (req, res) => {
 // Obtener historial de partidas del usuario autenticado
 export const getHistorialPartidas = async (req, res) => {
   try {
-    const userId = req.user.id;
-
-    if (!userId) {
+    if (!req.user) {
       return res.status(401).json({ error: "Usuario no autenticado" });
     }
+
+    const userId = req.user.id;
 
     const { data: partidas, error } = await supabase
       .from("Partida")
@@ -43,8 +43,8 @@ export const getHistorialPartidas = async (req, res) => {
 
     const partidasEnriquecidas = (partidas || []).map(p => ({
       ...p,
-      nombreOponente: p.Jugador1 === userId 
-        ? usuariosMap[p.Jugador2] 
+      nombreOponente: p.Jugador1 === userId
+        ? usuariosMap[p.Jugador2]
         : usuariosMap[p.Jugador1],
       oponenteId: p.Jugador1 === userId ? p.Jugador2 : p.Jugador1
     }));

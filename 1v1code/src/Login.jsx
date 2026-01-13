@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Login.css";
 import { API_URL } from "./config";
 
-const ModalUsuario = ({ isOpen, onClose, onLoginSuccess }) => {
+export const ModalUsuario = ({ isOpen, onClose, onLoginSuccess }) => {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

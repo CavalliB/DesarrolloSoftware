@@ -1,6 +1,6 @@
 import { supabase } from "../Supabase.js";
 
-const generateRandomLevel = () => {
+export const generateRandomLevel = () => {
     const filas = 15;
     const columnas = 15;
     const colors = ["red", "blue", "green", "yellow", "purple", "orange"];
@@ -38,7 +38,7 @@ const generateRandomLevel = () => {
     return { matrix, selectedColors };
 };
 
-async function updateUsuarioStats(UsuarioId, isWinner) {
+export async function updateUsuarioStats(UsuarioId, isWinner) {
     try {
         // 1. Obtener datos actuales del usuario
         const { data: usuarios, error } = await supabase
