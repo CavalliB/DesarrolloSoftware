@@ -1,5 +1,5 @@
 # DesarrolloSoftware
 
 ```bash
-git clone <https://github.com/CavalliB/DesarrolloSoftware>
+git clone https://github.com/CavalliB/DesarrolloSoftware
 ```
