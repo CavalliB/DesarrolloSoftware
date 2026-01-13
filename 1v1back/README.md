@@ -19,7 +19,6 @@ Para configurar y ejecutar la aplicación backend localmente, siga estos pasos:
 
 1. **Clonar el repositorio:**
 ```bash
-git clone <url_del_repositorio>
 cd 1v1back
 ```
 2. **Instalar dependencias:**

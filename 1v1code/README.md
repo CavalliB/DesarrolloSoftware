@@ -20,7 +20,6 @@ Para configurar y ejecutar la aplicación frontend localmente, siga estos pasos:
 
 1. **Clonar el repositorio:**
 ```bash
-git clone <repository_url>
 cd 1v1code
 ```
 2. **Instalar dependencias:**
